@@ -91,9 +91,9 @@ internal class MowerTest {
         @Test
         fun `should rotate left`() {
             assertThat(Mower(0, 0, NORTH).execute(LEFT)).isEqualTo(Mower(0, 0, WEST))
-            assertThat(Mower(0, 0, EAST).execute(LEFT)).isEqualTo(Mower(0, 0, SOUTH))
+            assertThat(Mower(0, 0, WEST).execute(LEFT)).isEqualTo(Mower(0, 0, SOUTH))
             assertThat(Mower(0, 0, SOUTH).execute(LEFT)).isEqualTo(Mower(0, 0, EAST))
-            assertThat(Mower(0, 0, WEST).execute(LEFT)).isEqualTo(Mower(0, 0, NORTH))
+            assertThat(Mower(0, 0, EAST).execute(LEFT)).isEqualTo(Mower(0, 0, NORTH))
         }
     }
 }
