@@ -4,6 +4,7 @@ plugins {
 
 group = "org.example"
 version = "1.0-SNAPSHOT"
+val junitVersion: String by project
 
 repositories {
     mavenCentral()
@@ -11,9 +12,10 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:5.8.2")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+    api(platform("org.junit:junit-bom:$junitVersion"))
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testImplementation("org.junit.jupiter:junit-jupiter-params")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
     testImplementation("org.assertj:assertj-core:3.21.0")
 }
 
