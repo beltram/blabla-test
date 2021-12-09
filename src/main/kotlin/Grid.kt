@@ -1,3 +1,6 @@
+import java.util.stream.Collectors
+import java.util.stream.Collectors.toList
+
 typealias Action = Pair<Command, Mower>
 typealias Actions = List<Action>
 typealias GroupedActions = List<Actions>
@@ -42,7 +45,11 @@ data class Grid(val dimension: Coordinate) {
         }
     }
 
-    private fun Actions.nextActions() = map { (c, m) -> c to applyCmd(c, m) }
+    private fun Actions.nextActions(): Actions {
+        return parallelStream()
+            .map { (c, m) -> c to applyCmd(c, m) }
+            .collect(Collectors.toList())
+    }
 
     private fun Actions.duplicateCoordinates(): Set<Coordinate> {
         return groupingBy { (_, m) -> m.coordinate }
