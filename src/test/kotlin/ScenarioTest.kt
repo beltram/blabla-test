@@ -7,16 +7,44 @@ import org.junit.jupiter.api.Test
 internal class ScenarioTest {
 
     companion object {
-        val rawScenario = this::class.java.classLoader.getResourceAsStream("input.txt")?.readAllBytes().toString()
+        val rawScenario = this::class.java.classLoader.getResourceAsStream("input.txt")
+            ?.readAllBytes()
+            ?.decodeToString()
+            .orEmpty()
     }
 
     @Test
     fun `should parse instructions correctly`() {
-        val cmdA = listOf(LEFT, FORWARD, LEFT, FORWARD, LEFT, FORWARD, LEFT, FORWARD, FORWARD)
-        val mowerA = Mower(1, 2, NORTH) to cmdA
-        val cmdB = listOf(FORWARD, FORWARD, RIGHT, FORWARD, FORWARD, RIGHT, FORWARD, RIGHT, RIGHT, FORWARD)
-        val mowerB = Mower(3, 3, EAST) to cmdB
-        assertThat(Scenario.from(rawScenario)).isEqualTo(Scenario(Grid(5, 5), mapOf(mowerA, mowerB)))
+        assertThat(Scenario.from(rawScenario)).isEqualTo(
+            Scenario(
+                Grid(5, 5),
+                mapOf(
+                    Mower(1, 2, NORTH) to listOf(
+                        LEFT,
+                        FORWARD,
+                        LEFT,
+                        FORWARD,
+                        LEFT,
+                        FORWARD,
+                        LEFT,
+                        FORWARD,
+                        FORWARD
+                    ),
+                    Mower(3, 3, EAST) to listOf(
+                        FORWARD,
+                        FORWARD,
+                        RIGHT,
+                        FORWARD,
+                        FORWARD,
+                        RIGHT,
+                        FORWARD,
+                        RIGHT,
+                        RIGHT,
+                        FORWARD
+                    )
+                )
+            )
+        )
     }
 
     @Test

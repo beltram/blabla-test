@@ -22,23 +22,23 @@ internal class GridTest {
 
         @Test
         fun `should apply forward command within bounds`() {
-            assertThat(Grid(10, 10).applyCommand(FORWARD, Mower(0, 0, NORTH))).isEqualTo(Mower(0, 1, NORTH))
+            assertThat(Grid(10, 10).applyCmd(FORWARD, Mower(0, 0, NORTH))).isEqualTo(Mower(0, 1, NORTH))
         }
 
         @Test
         fun `should apply rotate command within bounds`() {
-            assertThat(Grid(10, 10).applyCommand(RIGHT, Mower(0, 0, NORTH))).isEqualTo(Mower(0, 0, EAST))
-            assertThat(Grid(10, 10).applyCommand(LEFT, Mower(0, 0, NORTH))).isEqualTo(Mower(0, 0, WEST))
+            assertThat(Grid(10, 10).applyCmd(RIGHT, Mower(0, 0, NORTH))).isEqualTo(Mower(0, 0, EAST))
+            assertThat(Grid(10, 10).applyCmd(LEFT, Mower(0, 0, NORTH))).isEqualTo(Mower(0, 0, WEST))
         }
 
         @Test
         fun `should not apply forward command outside horizontal bounds`() {
-            Mower(10, 10, EAST).also { m -> assertThat(Grid(10, 10).applyCommand(FORWARD, m)).isEqualTo(m) }
+            Mower(10, 10, EAST).also { m -> assertThat(Grid(10, 10).applyCmd(FORWARD, m)).isEqualTo(m) }
         }
 
         @Test
         fun `should not apply forward command outside vertical bounds`() {
-            Mower(10, 10, NORTH).also { m -> assertThat(Grid(10, 10).applyCommand(FORWARD, m)).isEqualTo(m) }
+            Mower(10, 10, NORTH).also { m -> assertThat(Grid(10, 10).applyCmd(FORWARD, m)).isEqualTo(m) }
         }
     }
 
@@ -80,6 +80,18 @@ internal class GridTest {
                 Mower(0, 1, EAST),
                 Mower(3, 0, SOUTH),
                 Mower(3, 1, SOUTH),
+            )
+        }
+
+        @Test
+        fun `should move mowers with different number of commands`() {
+            val moves = mapOf(
+                Mower(0, 0, NORTH) to listOf(FORWARD, RIGHT),
+                Mower(2, 0, EAST) to listOf(FORWARD, LEFT, FORWARD, FORWARD),
+            )
+            assertThat(Grid(10, 10).simulate(moves)).containsExactly(
+                Mower(0, 1, EAST),
+                Mower(3, 2, NORTH),
             )
         }
 

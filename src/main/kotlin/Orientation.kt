@@ -5,8 +5,13 @@ enum class Orientation {
     NORTH, EAST, SOUTH, WEST;
 
     companion object {
-        private val values = enumValues<Orientation>()
-        private val len = values.size
+        fun from(raw: Char) = when (raw) {
+            'N' -> NORTH
+            'E' -> EAST
+            'S' -> SOUTH
+            'W' -> WEST
+            else -> throw IllegalStateException("Invalid orientation")
+        }
     }
 
     fun rotateRight() = when (this) {
